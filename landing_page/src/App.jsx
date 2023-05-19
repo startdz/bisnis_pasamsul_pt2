@@ -6,7 +6,8 @@ import Dashboard from "./components/Page/Admin/Dashboard";
 import Home from "./components/Home/Home";
 import Yoghurt from "./components/Product/Yoghurt";
 import Kurma from "./components/Product/Kurma";
-import Tailw from './Tailw'
+import Mkurma from "./components/Page/Content/Mkurma";
+import Myoghurt from "./components/Page/Content/Myoghurt";
 
 const App = () => {
   return (
@@ -20,6 +21,8 @@ const App = () => {
         <Route path="/auth/register" element={<Register />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/project/admin/dashboard" element={<Dashboard />} />
+        <Route path="/project/admin/dashboard/mkurma" element={<Mkurma />} />
+        <Route path="/project/admin/dashboard/myoghurt" element={<Myoghurt />} />
       </Routes>
     </React.Fragment>
   );
