@@ -1,0 +1,9 @@
+landing_page/node_modules
+landing_page/*.env
+
+
+server/node_modules
+server/*.rest
+server/*.env
+server/package-lock.json
+server/public/*

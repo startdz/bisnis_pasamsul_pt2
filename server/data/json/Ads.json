@@ -1,0 +1,58 @@
+[
+    {
+        "Ads": {
+            "Audience_Targeting": [
+                "Individu",
+                "Kelompok",
+                "Company",
+                "Collabs"
+            ],
+            "Value_Proposition": "Menawarkan Produk yang menarik",
+            "CTA": {
+                "Aksi_dari_Pengunjung": [
+                    "Klik_tautan",
+                    "Kunjungan_profile",
+                    "Melakukan_pembelian",
+                    "Likes",
+                    "Komen",
+                    "Bagikan",
+                    "web_visit",
+                    "mengikuti"
+                ]
+            },
+            "Visual": {
+                "2D": [
+                    "Design_gambar_informatif",
+                    "Design_gambar_interest"
+                ],
+                "Video": [
+                    "Shorts",
+                    "Reels",
+                    "Story",
+                    "Video promotion"                ]
+            },
+            "Konsistensi_merek": "Merek harus konsisten agar pengunjung mudah mengingat",
+            "Lakukan_pengukuran": {
+                "Data_grafik": [
+                    "pengunjung",
+                    "pengikut",
+                    "melihat",
+                    "Bagikan",
+                    "suka",
+                    "komen",
+                    "Klik_tautan"
+                ],
+                "fungsi": "Mendapatkan data untuk ke-efektifan iklan selanjutnya"
+            }
+        }
+    },
+    {
+        "PlatformIklanYangDigunakan": {
+            "Tranding": [
+                "Google Ads",
+                "Tiktok Ads",
+                "Instagram Ads"
+            ]
+        }
+    }
+]
