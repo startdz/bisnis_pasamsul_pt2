@@ -104,7 +104,7 @@ const Mkurma = () => {
             <div className="md:flex md:justify-between md:w-full gap-2">
               <Link
                 className="md:py-2 md:px-4 md:bg-zinc-800 md:w-1/2 md:font-bold md:text-slate-100 text-center md:hover:rounded-md md:rounded-sm md:hover:bg-zinc-900 md:transition-all md:duration-300 md:ease-in-out"
-                to={"/"}>
+                to={"/project/admin/dashboard/mkurma"}>
                 +Kurma🖐
               </Link>
               <Link

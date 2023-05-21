@@ -15,7 +15,7 @@ const client = new MongoClient(process.env.MONGO_CONNECTIONS_MERN, {
 
 const Connections = async () => {
     try {
-        await connect(`mongodb+srv://pasamsul:va-Db9V5g6-hK!p@cluster0.nupjfok.mongodb.net/db_pa_samsul?retryWrites=true&w=majority`)
+        await connect(process.env.MONGO_CONNECTIONS_MERN)
         console.log(`Database MongoDB Connected!`)
     } catch(error) {
         throw error

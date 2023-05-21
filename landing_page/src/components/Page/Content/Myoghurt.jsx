@@ -8,7 +8,9 @@ const Myoghurt = () => {
   return (
     <React.Fragment>
       <Navbar />
-      <div className="container mx-auto px-2">
+      {/* ------------------- */}
+      {/* Mobile Version */}
+      <div className="container mx-auto px-2 md:hidden">
         {/* start Breadcrumbs */}
         <div className="text-sm breadcrumbs">
           <ul>
@@ -19,7 +21,7 @@ const Myoghurt = () => {
               <Link to={"/project/admin/dashboard"}>Dashboard</Link>
             </li>
             <li>
-              <Link to={"/project/admin/dashboard/mkurma"}>Kurma</Link>
+              <Link to={"/project/admin/dashboard/myoghurt"}>Yoghurt</Link>
             </li>
           </ul>
         </div>
@@ -28,7 +30,7 @@ const Myoghurt = () => {
           <Link
             to={"/"}
             className="py-2 px-4 bg-zinc-800 font-bold text-zinc-200 rounded-sm hover:rounded-md transition-all duration-300 ease-in-out hover:bg-zinc-900">
-            + Yoghurt Baru🖐
+            + Kurma Baru🖐
           </Link>
         </div>
 
@@ -76,6 +78,86 @@ const Myoghurt = () => {
 
         <div className="divider"></div>
       </div>
+      {/* Mobile Version */}
+      {/* ------------------- */}
+      {/* Tablet Version & large */}
+      {/* ------------------- */}
+      <div className="hidden md:block md:w-full md:p-4">
+        <div className="md:container md:mx-auto md:my-2">
+          {/* start Breadcrumbs */}
+          <div className="text-sm breadcrumbs">
+            <ul>
+              <li>
+                <Link to={"/project/admin/dashboard"}>Control Panel</Link>
+              </li>
+              <li>
+                <Link to={"/project/admin/dashboard"}>Dashboard</Link>
+              </li>
+              <li>
+                <Link to={"/project/admin/dashboard/mkurma"}>Kurma</Link>
+              </li>
+            </ul>
+          </div>
+          {/* end Breadcrumbs */}
+          {/* start Tombol navigasi */}
+          <div className="divider">
+            <div className="md:flex md:justify-between md:w-full gap-2">
+              <Link
+                className="md:py-2 md:px-4 md:bg-zinc-800 md:w-1/2 md:font-bold md:text-slate-100 text-center md:hover:rounded-md md:rounded-sm md:hover:bg-zinc-900 md:transition-all md:duration-300 md:ease-in-out"
+                to={"/project/admin/dashboard/mkurma"}>
+                +Kurma🖐
+              </Link>
+              <Link
+                className="md:py-2 md:px-4 md:bg-zinc-800 md:w-1/2 md:font-bold md:text-slate-100 text-center md:hover:rounded-md md:rounded-sm md:hover:bg-zinc-900 md:transition-all md:duration-300 md:ease-in-out"
+                to={"/"}>
+                Produk Lain😋
+              </Link>
+            </div>
+          </div>
+          {/* end Tombol navigasi */}
+
+          {/* Card Kurma md:&lg */}
+          <div className="hidden md:w-full md:flex md:justify-evenly md:flex-wrap md:gap-4 md:mt-8">
+            {/* start Card */}
+            <div className="w-2/5 md:p-2 md:border-2 md:shadow-lg md:rounded-lg md:hover:rounded-sm group duration-300 transition-all ease-in-out lg:w-1/4">
+              <div>
+                <img
+                  src={y3}
+                  className="md:rounded-lg md:shadow-lg md:overflow-hidden md:group-hover:scale-95 md:transition-all md:duration-700 md:ease-in-out md:group-hover:rotate-180 md:group-hover:opacity-95"
+                />
+              </div>
+
+              <div className="md:flex md:w-full md:justify-between md:mt-2">
+                <div className="md:w-1/4 md:h-28 md:flex md:flex-col md:justify-between md:font-semibold">
+                  <p className="md:border-t">Title:</p>
+                  <p>Stok:</p>
+                  <p>Harga:</p>
+                </div>
+                <div className="md:w-3/4 md:h-28 md:flex md:flex-col md:justify-between md:text-end md:font-bold">
+                  <p className="md:truncate md:border-t">Kurma Best Seller A</p>
+                  <p>240 Pack</p>
+                  <p>Rp. 33.500</p>
+                </div>
+              </div>
+
+              <div className="md:w-full md:flex md:flex-row-reverse md:mt-2 md:justify-between md:font-bold md:text-slate-100">
+                <button className="md:py-2 md:px-6 md:bg-zinc-800 md:rounded-sm md:hover:bg-zinc-900 md:hover:rounded-md transition-all duration-300 ease-in-out">
+                  Hapus
+                </button>
+                <button className="md:py-2 md:px-6 md:bg-zinc-800 md:rounded-sm md:hover:bg-zinc-900 md:hover:rounded-md transition-all duration-300 ease-in-out">
+                  Ubah
+                </button>
+              </div>
+            </div>
+            {/* end Card */}
+          </div>
+          {/* Card Kurma md:&lg */}
+
+          <div className="divider"></div>
+        </div>
+      </div>
+      {/* ------------------- */}
+      {/* Tablet Version & large */}
       <Footer />
     </React.Fragment>
   );
