@@ -9,13 +9,13 @@ import Kurma from "./components/Product/Kurma";
 import Mkurma from "./components/Page/Content/Mkurma";
 import Myoghurt from "./components/Page/Content/Myoghurt";
 import Cothers from "./components/Page/Content/Cothers";
+import CreateO from "./components/Form/Dashboard/Create/CreateO";
 
 const App = () => {
   return (
     <React.Fragment>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/" element={<Tailw />} /> */}
         <Route path="/produk/yoghurt" element={<Yoghurt />} />
         <Route path="/produk/kurma" element={<Kurma />} />
         <Route path="/produk/others" element={<Home />} />
@@ -25,6 +25,7 @@ const App = () => {
         <Route path="/project/admin/dashboard/mkurma" element={<Mkurma />} />
         <Route path="/project/admin/dashboard/myoghurt" element={<Myoghurt />} />
         <Route path="/project/admin/dashboard/cothers" element={<Cothers />} />
+        <Route path="/project/admin/dashboard/cothers/create" element={<CreateO />} />
       </Routes>
     </React.Fragment>
   );
