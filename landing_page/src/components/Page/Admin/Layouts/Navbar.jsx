@@ -1,6 +1,21 @@
-import React from 'react'
+import React from 'react';
+import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
+
 
 const Navbar = () => {
+
+    const navigate = useNavigate()
+
+    const Logout = async () => {
+        try {
+            await axios.delete(`http://localhost:5000/api/business/auth/logout`);
+            navigate("/auth/login");
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <React.Fragment>
             <div className="navbar bg-base-100">
@@ -13,7 +28,7 @@ const Navbar = () => {
                             <li><a>Dashboard</a></li>
                             <li><a>Pengaturan</a></li>
                             <li><a>Manajemen Produk</a></li>
-                            <li><a>Logout</a></li>
+                            <li><button onClick={Logout}>Logout</button></li>
                         </ul>
                     </div>
                 </div>

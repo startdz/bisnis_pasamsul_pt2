@@ -41,7 +41,7 @@ const Administrator = {
       if (!match) {
         res
           .status(400)
-          .json({ message: "Password salah atau akun tidak ditemukan!" });
+          .json({ message: "Password salah!" });
         return false;
       }
 

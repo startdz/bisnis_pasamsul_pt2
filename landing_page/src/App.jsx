@@ -8,6 +8,7 @@ import Yoghurt from "./components/Product/Yoghurt";
 import Kurma from "./components/Product/Kurma";
 import Mkurma from "./components/Page/Content/Mkurma";
 import Myoghurt from "./components/Page/Content/Myoghurt";
+import Cothers from "./components/Page/Content/Cothers";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/project/admin/dashboard" element={<Dashboard />} />
         <Route path="/project/admin/dashboard/mkurma" element={<Mkurma />} />
         <Route path="/project/admin/dashboard/myoghurt" element={<Myoghurt />} />
+        <Route path="/project/admin/dashboard/cothers" element={<Cothers />} />
       </Routes>
     </React.Fragment>
   );

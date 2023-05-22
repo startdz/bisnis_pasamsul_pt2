@@ -11,18 +11,17 @@ const Login = () => {
 
   const Login = async (e) => {
     e.preventDefault();
-    // try {
-    //   await axios.post("http://localhost:5000/api/business/auth/login", {
-    //     email,
-    //     password,
-    //   });
-    //   navigate("/project/admin/dashboard");
-    // } catch (error) {
-    //   if (error.response) {
-    //     setMessage(error.response.data.message);
-    //   }
-    // }
-    navigate("/project/admin/dashboard");
+    try {
+      await axios.post("http://localhost:5000/api/business/auth/login", {
+        email,
+        password,
+      });
+      navigate("/project/admin/dashboard");
+    } catch (error) {
+      if (error.response) {
+        setMessage(error.response.data.message);
+      }
+    }
   };
 
   return (

@@ -68,15 +68,6 @@ const Dashboard = () => {
     setListAdmin(response.data);
   };
 
-  const Logout = async () => {
-    try {
-      await axios.delete(`http://localhost:5000/api/business/auth/logout`);
-      navigate("/auth/login");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <React.Fragment>
       <Navbar />
@@ -104,7 +95,7 @@ const Dashboard = () => {
             <div className="collapse-content flex flex-col gap-4">
               <Link to={'/project/admin/dashboard/mkurma'}>Manajemen Produk Kurma</Link>
               <Link to={"/project/admin/dashboard/myoghurt"}>Manajemen Produk Yoghurt</Link>
-              <Link>Manajemen Produk Lain</Link>
+              <Link to={'/project/admin/dashboard/cothers'}>Manajemen Produk Lain</Link>
             </div>
           </div>
           {/* end link produk */}

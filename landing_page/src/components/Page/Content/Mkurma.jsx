@@ -7,7 +7,7 @@ import y3 from "/y3.jpg";
 const Mkurma = () => {
   return (
     <React.Fragment>
-      <Navbar />
+      <Navbar/>
       {/* ------------------- */}
       {/* Mobile Version */}
       <div className="container mx-auto px-2 md:hidden">
