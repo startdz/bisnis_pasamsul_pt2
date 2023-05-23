@@ -16,6 +16,7 @@ const Login = () => {
         email,
         password,
       });
+      
       navigate("/project/admin/dashboard");
     } catch (error) {
       if (error.response) {

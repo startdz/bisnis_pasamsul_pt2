@@ -4,11 +4,14 @@ import jwt from "jsonwebtoken";
 
 const Administrator = {
   register: async (req, res, next) => {
-    const { username, email, password, secondPassword } = req.body;
+    const { username, email, password, secondPassword } =
+      req.body;
 
     if (password !== secondPassword) {
-      res.status(400).json({ message: "Password salah atau tidak cocok!" });
-      console.log(password, secondPassword)
+      res
+        .status(400)
+        .json({ message: "Password salah atau tidak cocok!" });
+      console.log(password, secondPassword);
       return false;
     }
 
@@ -33,15 +36,18 @@ const Administrator = {
         email: req.body.email,
       });
       if (!admin) {
-        res.status(404).json({ message: "Email tidak ditemukan!" });
+        res
+          .status(404)
+          .json({ message: "Email tidak ditemukan!" });
         return false;
       }
 
-      const match = await bcrypt.compare(req.body.password, admin.password);
+      const match = await bcrypt.compare(
+        req.body.password,
+        admin.password
+      );
       if (!match) {
-        res
-          .status(400)
-          .json({ message: "Password salah!" });
+        res.status(400).json({ message: "Password salah!" });
         return false;
       }
 
@@ -52,7 +58,7 @@ const Administrator = {
       const accessToken = jwt.sign(
         { adminID, username, email },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "10s" }
+        { expiresIn: "1d" }
       );
 
       const refreshToken = jwt.sign(
@@ -75,10 +81,11 @@ const Administrator = {
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000,
-        // secure: true (jika https)
+        maxAge: 24 * 60 * 60 * 1000, // cookie = 1hari
+        // secure: true (jika https) --> harus diubah ketika sudah productions
       });
       res.json({ accessToken });
+      console.log(accessToken);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -95,14 +102,16 @@ const Administrator = {
   },
   list: async (req, res, next) => {
     try {
-      const admin = await Admin.find().select("-password -refreshToken");
+      const admin = await Admin.find().select(
+        "-password -refreshToken"
+      );
       res.status(200).json(admin);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   },
-  update: async (req, res, next) => {},
-  drop: async (req, res, next) => {},
+  update: async (req, res, next) => { },
+  drop: async (req, res, next) => { },
   logout: async (req, res, next) => {
     const refreshToken = req.cookies.refreshToken;
     if (!refreshToken) return res.sendStatus(204);

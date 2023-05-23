@@ -8,6 +8,7 @@ import {
   KurmaRouter,
   PromoRouter,
   YoghurtRouter,
+  OthersRouter
 } from "./routes/routing.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
@@ -33,6 +34,7 @@ app.use(ContactRouter);
 app.use(PromoRouter);
 app.use(KurmaRouter);
 app.use(YoghurtRouter);
+app.use(OthersRouter);
 
 app.listen(port, () => {
   Connections();
