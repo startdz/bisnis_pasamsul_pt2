@@ -32,13 +32,17 @@ const CreateO = () => {
   const [stokProduk, setStokProduk] = useState(0);
 
   const [fileTerpilih, setFileTerpilih] = useState(null);
-  // const {name, size, type} = fileTerpilih.File
 
   const [fileGambar, setFileGambar] = useState("");
-  const [notif, setNotif] = useState("");
   const [token, setToken] = useState("");
   const [username, setUsername] = useState("")
-  const [expired, setExpired] = useState("")
+  const [expire, setExpire] = useState("")
+  const [message, setMessage] = useState("")
+
+  const [nameFile, setNameFile] = useState("")
+  const [typeFile, setTypeFile] = useState("")
+  const [binFile, setBinFile] = useState("")
+
 
   useEffect(() => {
     refreshToken();
@@ -55,7 +59,7 @@ const CreateO = () => {
       setToken(response.data.accessToken)
       const decoded = jwtDecode(response.data.accessToken)
       setUsername(decoded.username)
-      setExpired(decoded.exp)
+      setExpire(decoded.exp)
     } catch (error) {
       if (error.response) {
         navigate("/auth/login")
@@ -63,14 +67,38 @@ const CreateO = () => {
     }
   }
 
+  const axiosJWT = axios.create();
+
+  axiosJWT.interceptors.request.use(
+    async (config) => {
+      const currentDate = new Date();
+      if (expire * 1000 < currentDate.getTime()) {
+        const response = await axios.get(
+          "http://localhost:5000/api/auth/security/"
+        );
+        config.headers.Authorization = `Bearer ${response.data.accessToken}`;
+        setToken(response.data.accessToken);
+        const decoded = jwtDecode(response.data.accessToken);
+        setUsername(decoded.username);
+        setExpire(decoded.exp);
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
   const handleFileTerpilih = (data) => {
     const file = data.target.files[0];
     setFileTerpilih(file);
-
+    setNameFile(file.name)
+    setTypeFile(file.type)
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setFileGambar(reader.result);
+        setBinFile(reader.result)
       };
       reader.readAsDataURL(file);
     } else {
@@ -78,23 +106,31 @@ const CreateO = () => {
     }
   };
 
-  const SaveOthersProduct = async () => {
+  const SaveOthersProduct = async (e) => {
+    e.preventDefault()
+    
+    const formData = new FormData()
+    formData.append('title', titleOthers)
+    formData.append('image', fileTerpilih)
+    formData.append('description', descProduct)
+    // formData.append('data', binFile)
+    // formData.append('originalName', nameFile)
+    // formData.append('ContentType', typeFile)
+    formData.append('url', fileGambar)
+    formData.append('price', hargaProduk)
+    formData.append('stock', stokProduk)
+
     try {
-      await axios.post("http://localhost:5000/api/product/others/", {
-        title: titleOthers,
-        description: descProduct,
-        image: fileTerpilih,
-        url: fileGambar,
-        price: hargaProduk,
-        stock: stokProduk
-      }, {
+      await axiosJWT.post("http://localhost:5000/api/product/others/", formData, {
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklEIjoiNjQ2OThmNDA1MGFkMmRiYTFmODAwZmRiIiwidXNlcm5hbWUiOiJGdWFkdHN4IiwiZW1haWwiOiJlbWFpbEBlbWFpbC5jb20iLCJpYXQiOjE2ODQ4MjkxMjUsImV4cCI6MTY4NDkxNTUyNX0.f3ioZ4-y--e7-JOSAQxFYNnwUxoKcKrQ4yAT3XMOcq0`
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data"
         }
       })
+      navigate("/project/admin/dashboard/cothers")
     } catch (error) {
       if (error.response) {
-        navigate("/auth/login")
+        setMessage(error.response.data.message)
       }
     }
   };
@@ -177,7 +213,7 @@ const CreateO = () => {
                 />
                 <label className="label">
                   <span className="label-text-alt text-red-600">
-                    {"tempat notif kesalahan!"}
+                    {!message ? '' : message}
                   </span>
                   <span className="label-text-alt">
                     {`${hariIni} , ${tanggal}/${bulan}/${tahun}`}
@@ -206,7 +242,7 @@ const CreateO = () => {
                 />
                 <label className="label">
                   <span className="label-text-alt text-red-600">
-                    {"tempat notif kesalahan!"}
+                  {!message ? '' : message}
                   </span>
                   <span className="label-text-alt">
                     {`${hariIni} , ${tanggal}/${bulan}/${tahun}`}
@@ -235,7 +271,7 @@ const CreateO = () => {
                 />
                 <label className="label">
                   <span className="label-text-alt text-red-600">
-                    {"tempat notif kesalahan!"}
+                  {!message ? '' : message}
                   </span>
                   <span className="label-text-alt">
                     {`${hariIni} , ${tanggal}/${bulan}/${tahun}`}
@@ -265,7 +301,7 @@ const CreateO = () => {
                 />
                 <label className="label">
                   <span className="label-text-alt text-red-600">
-                    {"tempat notif kesalahan!"}
+                  {!message ? '' : message}
                   </span>
                   <span className="label-text-alt">
                     {`${hariIni} , ${tanggal}/${bulan}/${tahun}`}
@@ -287,9 +323,9 @@ const CreateO = () => {
                 />
                 <label className="label">
                   <span className="label-text-alt text-red-600">
-                    notif kesalahan
+                  {!message ? '' : message}
                   </span>
-                  <span className="label-text-alt">{console.log(fileTerpilih)}</span>
+                  <span className="label-text-alt">{console.log()}</span>
                 </label>
               </div>
 

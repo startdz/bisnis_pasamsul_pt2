@@ -12,7 +12,7 @@ const OthersController = {
  },
  save: async (req, res, next) => {
   const img = req.file;
-  const { mimetype, size, filename, encoding } = img;
+  // const { mimetype, size, filename, encoding } = img;
 
   if (!img) {
    res
@@ -21,7 +21,7 @@ const OthersController = {
    return false;
   }
 
-  if (size >= 2000000) {
+  if (img.size >= 2 * 1024 * 1024) {
    res
     .status(422)
     .json({ message: "Gambar tidak bisa melebihi 2mb!" });
@@ -29,9 +29,9 @@ const OthersController = {
   }
 
   if (
-   !mimetype === "image/png" ||
-   !mimetype === "image/jpg" ||
-   !mimetype === "image/jpeg"
+   !img.mimetype === "image/png" ||
+   !img.mimetype === "image/jpg" ||
+   !img.mimetype === "image/jpeg"
   ) {
    res
     .status(422)
@@ -44,9 +44,9 @@ const OthersController = {
     title: req.body.title,
     description: req.body.description,
     image: {
-     data: encoding,
-     originalName: filename,
-     ContentType: mimetype,
+     data: img.encoding,
+     originalName: img.filename,
+     ContentType: img.mimetype,
     },
     url: `${req.protocol}://${req.get("host")}/images/${
      img.filename
@@ -56,8 +56,10 @@ const OthersController = {
    });
    await others.save();
    res.status(201).json(others);
+   console.log(others);
   } catch (error) {
    res.status(500).json({ message: error.message });
+   console.log(error);
   }
  },
  update: async (req, res, next) => {},

@@ -5,10 +5,14 @@ const OthersSchema = Schema({
  title: {
   type: String,
   required: true,
+  min: 5,
+  max: 24,
  },
  description: {
   type: String,
   required: true,
+  min: 5,
+  max: 48,
  },
  image: {
   data: Buffer,
@@ -23,10 +27,14 @@ const OthersSchema = Schema({
  price: {
   type: String,
   required: true,
+  min: 3,
+  max: 24,
  },
  stock: {
   type: Number,
   required: true,
+  min: 1,
+  max: 9999,
  },
 });
 
