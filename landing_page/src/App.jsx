@@ -10,6 +10,7 @@ import Mkurma from "./components/Page/Content/Mkurma";
 import Myoghurt from "./components/Page/Content/Myoghurt";
 import Cothers from "./components/Page/Content/Cothers";
 import CreateO from "./components/Form/Dashboard/Create/CreateO";
+import OthersUpdate from "./components/Page/Content/OthersUpdate";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/project/admin/dashboard/myoghurt" element={<Myoghurt />} />
         <Route path="/project/admin/dashboard/cothers" element={<Cothers />} />
         <Route path="/project/admin/dashboard/cothers/create" element={<CreateO />} />
+        <Route path="/project/admin/dashboard/cothers/edit/:id" element={<OthersUpdate />} />
       </Routes>
     </React.Fragment>
   );

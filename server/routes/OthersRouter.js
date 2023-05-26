@@ -21,5 +21,11 @@ router.post(
  Token.verifyToken,
  OthersController.save
 );
+router.put(
+ "/api/product/others/:id",
+ Upload.single("image"),
+ Token.verifyToken,
+ OthersController.update
+);
 
 export default router;
