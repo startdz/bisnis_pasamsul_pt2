@@ -27,5 +27,10 @@ router.put(
  Token.verifyToken,
  OthersController.update
 );
+router.delete(
+ "/api/product/others/:id",
+ Token.verifyToken,
+ OthersController.drop
+);
 
 export default router;

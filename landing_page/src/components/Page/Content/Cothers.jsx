@@ -11,6 +11,9 @@ const Cothers = () => {
   const [othersProduct, setOthersProduct] = useState([])
   const [username, setUsername] = useState("")
   const [expire, setExpire] = useState("")
+  const [message, setMessage] = useState("")
+
+  const navigate = useNavigate()
 
   const refreshToken = async () => {
     try {
@@ -62,9 +65,21 @@ const Cothers = () => {
     resutsOthersProduct()
   }, [])
 
-  const dropOther = async(id) => {
-    
+  const dropOther = async (id) => {
+    try {
+      await axiosJWT.delete(`http://localhost:5000/api/product/others/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      resutsOthersProduct()
+    } catch (error) {
+      if (error.response) {
+        setMessage(error.response.data.message)
+      }
+    }
   }
+
 
   return (
     <React.Fragment>
@@ -104,6 +119,9 @@ const Cothers = () => {
               </li>
             </ul>
           </div>
+          {!message ? '' : (<div className="text-center font-bold">
+            {message}
+          </div>)}
           {/* end navigasi */}
           {/* start Content */}
           <div className="grid grid-cols-2 gap-2 pt-4 md:grid-cols-3 md:gap-3 lg:flex lg:flex-wrap lg:justify-around">
@@ -129,10 +147,21 @@ const Cothers = () => {
                     <div className="truncate border-b">{other.stock} Pics/Pack</div>
                   </div>
                 </div>
+
                 <div className="flex justify-between mt-4 flex-row-reverse font-bold border-t pt-2 text-center sm:p-2">
-                  <Link className="px-4 py-2 bg-zinc-800 text-base-100 rounded hover:bg-zinc-900 hover:rounded-md transition-all duration-300 ease-in-out hover:text-sm" to={`http://localhost:5173/project/admin/dashboard/cothers/drop/${other._id}`}>
+                  <label className="px-4 py-2 bg-zinc-800 text-base-100 rounded hover:bg-zinc-900 hover:rounded-md transition-all duration-300 ease-in-out hover:text-sm" htmlFor="my-modal-6">
                     Hapus
-                  </Link>
+                  </label>
+                  <input type="checkbox" id="my-modal-6" className="modal-toggle" />
+                  <div className="modal modal-bottom sm:modal-middle">
+                    <div className="modal-box">
+                      <h3 className="font-bold text-lg">Yakin Hapus Produk ini ?</h3>
+                      <p className="py-4">Menghapus produk ini sayang lho🙂</p>
+                      <div className="modal-action">
+                        <button onClick={() => dropOther(other._id)}  className="btn">Hapus</button>
+                      </div>
+                    </div>
+                  </div>
                   <Link className="px-4 py-2 bg-zinc-800 text-base-100 rounded hover:bg-zinc-900 hover:rounded-md transition-all duration-300 ease-in-out hover:text-sm" to={`http://localhost:5173/project/admin/dashboard/cothers/edit/${other._id}`}>
                     Ubah
                   </Link>

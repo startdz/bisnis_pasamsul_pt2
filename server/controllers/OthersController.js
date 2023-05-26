@@ -136,8 +136,29 @@ const OthersController = {
    res.status(500).json({ message: error.message });
   }
  },
- 
- drop: async (req, res, next) => {},
+
+ drop: async (req, res, next) => {
+  try {
+   const other = await Others.findById(req.params.id);
+   const { originalName } = other.image;
+
+   fs.access("public/images/", fs.constants.F_OK, (err) => {
+    if (!err) {
+     fs.unlink(`public/images/${originalName}`, (err) => {
+      if (err) throw err;
+      console.log(`Gambar other produk berhasil dihapus!`);
+     });
+    }
+   });
+
+   const drop = await Others.deleteOne({
+    _id: req.params.id,
+   });
+   res.status(200).json(drop);
+  } catch (error) {
+   res.status(500).json({ message: error.message });
+  }
+ },
 };
 
 export default OthersController;
