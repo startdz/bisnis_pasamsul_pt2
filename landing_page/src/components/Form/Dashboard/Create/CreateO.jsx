@@ -108,7 +108,7 @@ const CreateO = () => {
 
   const SaveOthersProduct = async (e) => {
     e.preventDefault()
-    
+
     const formData = new FormData()
     formData.append('title', titleOthers)
     formData.append('image', fileTerpilih)
@@ -185,12 +185,11 @@ const CreateO = () => {
             😴 Form Tambah Produk Lain
           </div>
           {/* start form-create produk lain */}
-          <div>
-            <p className="font-bold">Apa Kabar 🖐, {username}! </p>
+          <div className="flex flex-col justify-between items-center gap-2 md:flex-row lg:flex-row-reverse lg:max-w-4xl lg:mx-auto">
             <form
               action=""
               onSubmit={SaveOthersProduct}
-              className="border p-2 shadow-xl rounded-lg"
+              className="border p-2 shadow-xl rounded-lg flex flex-col"
               encType="multipart/form-data">
               <div className="form-control w-full max-w-xs mx-auto">
                 <label className="label">
@@ -242,7 +241,7 @@ const CreateO = () => {
                 />
                 <label className="label">
                   <span className="label-text-alt text-red-600">
-                  {!message ? '' : message}
+                    {!message ? '' : message}
                   </span>
                   <span className="label-text-alt">
                     {`${hariIni} , ${tanggal}/${bulan}/${tahun}`}
@@ -271,7 +270,7 @@ const CreateO = () => {
                 />
                 <label className="label">
                   <span className="label-text-alt text-red-600">
-                  {!message ? '' : message}
+                    {!message ? '' : message}
                   </span>
                   <span className="label-text-alt">
                     {`${hariIni} , ${tanggal}/${bulan}/${tahun}`}
@@ -301,7 +300,7 @@ const CreateO = () => {
                 />
                 <label className="label">
                   <span className="label-text-alt text-red-600">
-                  {!message ? '' : message}
+                    {!message ? '' : message}
                   </span>
                   <span className="label-text-alt">
                     {`${hariIni} , ${tanggal}/${bulan}/${tahun}`}
@@ -323,34 +322,34 @@ const CreateO = () => {
                 />
                 <label className="label">
                   <span className="label-text-alt text-red-600">
-                  {!message ? '' : message}
+                    {!message ? '' : message}
                   </span>
                   <span className="label-text-alt">{console.log()}</span>
                 </label>
               </div>
 
-              {/* start Preview image & button sumbit */}
-              {fileGambar && (
-                <div className="w-full flex justify-between items-center p-4">
-                  <div className="w-1/2 font-bold text-base-100 group">
-                    <button
-                      className="py-2 px-5 block bg-zinc-700 group-hover:rounded-md transition-all duration-500 ease-in-out group-hover:bg-zinc-900"
-                      type="submit">
-                      😴Tambah Baru
-                    </button>
-                  </div>
-                  <div className="w-1/2 group">
-                    <img
-                      src={fileGambar}
-                      alt=""
-                      className="rounded-lg group-hover:scale-110 transition-all duration-500 ease-in-out"
-                    />
-                  </div>
-                </div>
-              )}
-              {/* end Preview image & button sumbit */}
-
+              <div className="font-bold text-base-100 group">
+                <button
+                  className="py-2 block w-full bg-zinc-800 group-hover:rounded-lg transition-all rounded duration-500 ease-in-out group-hover:bg-zinc-900 group-hover:w-1/2 mx-auto"
+                  type="submit">
+                  😴Tambah Baru
+                </button>
+              </div>
             </form>
+            {/* start Preview image & button sumbit */}
+            {fileGambar && (
+              <div className="w-3/4 lg:w-2/3 flex items-center p-4">
+                <div className="group">
+                  <img
+                    src={fileGambar}
+                    alt=""
+                    className="rounded-lg group-hover:scale-110 transition-all duration-500 ease-in-out lg:group-hover:scale-105"
+                  />
+                </div>
+              </div>
+            )}
+            {/* end Preview image & button sumbit */}
+
           </div>
           {/* end form-create produk lain */}
         </div>

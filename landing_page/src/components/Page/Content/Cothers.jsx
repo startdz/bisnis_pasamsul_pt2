@@ -4,6 +4,7 @@ import Navbar from "../Admin/Layouts/Navbar";
 import Footer from "../Admin/Layouts/Footer";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import av from '/av.jpg'
 
 const Cothers = () => {
 
@@ -84,7 +85,7 @@ const Cothers = () => {
   return (
     <React.Fragment>
       {/* start mobile version & sm-device */}
-      <Navbar />
+      <Navbar username={username}/>
       <div className="w-full h-auto p-4 bg-base-100">
         <div className="container mx-auto lg:max-w-4xl">
           {/* start navigasi */}
@@ -176,6 +177,15 @@ const Cothers = () => {
         </div>
       </div>
       {/* end mobile version & sm-device */}
+      <React.Fragment>
+        <div className="w-full">
+          <div className="container max-w-4xl mx-auto">
+            <div className="divider">
+              🙂
+            </div>
+          </div>
+        </div>
+      </React.Fragment>
       <Footer />
     </React.Fragment>
   );

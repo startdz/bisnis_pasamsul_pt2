@@ -1,53 +1,197 @@
-import React from 'react';
-import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
+import React from "react";
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
 
+const Navbar = ({ username }) => {
+ const navigate = useNavigate();
 
-const Navbar = () => {
+ const Logout = async () => {
+  try {
+   await axios.delete(
+    `http://localhost:5000/api/business/auth/logout`
+   );
+   navigate("/auth/login");
+  } catch (error) {
+   console.log(error);
+  }
+ };
 
-    const navigate = useNavigate()
+ return (
+  <React.Fragment>
+   <div className="navbar bg-base-100 fixed z-[99]">
+    <div className="navbar-start">
+     <div className="dropdown">
+      <label
+       tabIndex={0}
+       className="btn btn-ghost lg:hidden">
+       <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-5 w-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path
+         strokeLinecap="round"
+         strokeLinejoin="round"
+         strokeWidth="2"
+         d="M4 6h16M4 12h8m-8 6h16"
+        />
+       </svg>
+      </label>
+      <ul
+       tabIndex={0}
+       className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+       <li>
+        <Link to={"/admin/project/testimoni/"}>
+         Testimoni
+        </Link>
+       </li>
+       <li tabIndex={0}>
+        <a className="justify-between">
+         Manajemen Produk
+         <svg
+          className="fill-current"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24">
+          <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+         </svg>
+        </a>
+        <ul className="p-2">
+         <li>
+          <Link to={"/project/admin/dashboard/myoghurt"}>
+           Produk Yoghurt
+          </Link>
+         </li>
+         <li>
+          <Link to={"/project/admin/dashboard/mkurma"}>
+           Produk Kurma
+          </Link>
+         </li>
+         <li>
+          <Link to={"/project/admin/dashboard/cothers"}>
+           Produk Lain
+          </Link>
+         </li>
+        </ul>
+       </li>
+       <li tabIndex={0}>
+        <a className="justify-between">
+         Pengaturan Lain
+         <svg
+          className="fill-current"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24">
+          <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+         </svg>
+        </a>
+        <ul className="p-2">
+         <li>
+          <a>Ubah Sosmed</a>
+         </li>
+         <li>
+          <a>Pengaturan Akun</a>
+         </li>
+         <li>
+          <button onClick={Logout}>Logout</button>
+         </li>
+        </ul>
+       </li>
+       <li>
+        <a>Mode</a>
+       </li>
+      </ul>
+     </div>
+     <Link
+      to={"/project/admin/dashboard"}
+      className="btn btn-ghost normal-case text-xl">
+      <span>Halo🖐,&nbsp;</span>
+      {username}
+     </Link>
+    </div>
+    <div className="navbar-center hidden lg:flex">
+     <ul className="menu menu-horizontal px-1">
+      <li>
+       <Link to={"/project/admin/dashboard/testimonial"}>
+        Testimoni
+       </Link>
+      </li>
+      <li tabIndex={0}>
+       <a>
+        Manajemen Produk
+        <svg
+         className="fill-current"
+         xmlns="http://www.w3.org/2000/svg"
+         width="20"
+         height="20"
+         viewBox="0 0 24 24">
+         <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+        </svg>
+       </a>
+       <ul className="p-2">
+        <li>
+         <Link to={"/project/admin/dashboard/myoghurt"}>
+          Produk Yoghurt
+         </Link>
+        </li>
+        <li>
+         <Link to={"/project/admin/dashboard/mkurma"}>
+          Produk Kurma
+         </Link>
+        </li>
+        <li>
+         <Link to={"/project/admin/dashboard/cothers"}>
+          Produk Lain
+         </Link>
+        </li>
+       </ul>
+      </li>
+      <li tabIndex={0}>
+       <a>
+        Pengaturan Lain
+        <svg
+         className="fill-current"
+         xmlns="http://www.w3.org/2000/svg"
+         width="20"
+         height="20"
+         viewBox="0 0 24 24">
+         <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+        </svg>
+       </a>
+       <ul className="p-2">
+        <li>
+         <Link to={"/project/admin/dashboard/myoghurt"}>
+          Pengaturan Akun
+         </Link>
+        </li>
+        <li>
+         <Link to={"/project/admin/dashboard/mkurma"}>
+          Ubah Sosmed
+         </Link>
+        </li>
+        <li>
+         <button onClick={Logout}>Logout</button>
+        </li>
+       </ul>
+      </li>
+      <li>
+       <a>Mode</a>
+      </li>
+     </ul>
+    </div>
+    <div className="navbar-end">
+     <button
+      className="btn bg-red-500 text-white hover:text-zinc-900 hover:rounded-lg"
+      onClick={Logout}>
+      Sign Out
+     </button>
+    </div>
+   </div>
+  </React.Fragment>
+ );
+};
 
-    const Logout = async () => {
-        try {
-            await axios.delete(`http://localhost:5000/api/business/auth/logout`);
-            navigate("/auth/login");
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    return (
-        <React.Fragment>
-            <div className="navbar bg-base-100">
-                <div className="navbar-start">
-                    <div className="dropdown">
-                        <label tabIndex={0} className="btn btn-ghost btn-circle">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
-                        </label>
-                        <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                            <li><a>Dashboard</a></li>
-                            <li><a>Pengaturan</a></li>
-                            <li><a>Manajemen Produk</a></li>
-                            <li><button onClick={Logout}>Logout</button></li>
-                        </ul>
-                    </div>
-                </div>
-                <div className="navbar-center">
-                    <a className="btn btn-ghost normal-case text-xl">Control Panel</a>
-                </div>
-                <div className="navbar-end">
-                    <button className="btn btn-ghost btn-circle">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                    </button>
-                    <button className="btn btn-ghost btn-circle">
-                        <div className="indicator">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-                        </div>
-                    </button>
-                </div>
-            </div>
-        </React.Fragment>
-    )
-}
-
-export default Navbar
+export default Navbar;
