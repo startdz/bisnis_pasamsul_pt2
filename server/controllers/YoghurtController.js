@@ -29,6 +29,7 @@ const YoghurtController = {
       const create = new Yoghurt({
         title: req.body.title,
         description: req.body.description,
+        taste: req.body.taste,
         image: {
           data: img.encoding,
           originalName: img.filename,
@@ -40,6 +41,7 @@ const YoghurtController = {
       });
       await create.save();
       res.status(201).json(create);
+      console.log(create)
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -109,6 +111,7 @@ const YoghurtController = {
         {
           title: req.body.title,
           description: req.body.description,
+          taste: req.body.taste,
           image: {
             data: img.fieldname,
             originalName: changedNameFile,

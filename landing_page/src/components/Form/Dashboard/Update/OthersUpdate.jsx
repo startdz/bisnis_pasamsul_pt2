@@ -6,8 +6,8 @@ import {
   Link,
   useParams,
 } from "react-router-dom";
-import Navbar from "../Admin/Layouts/Navbar";
-import Footer from "../Admin/Layouts/Footer";
+import Navbar from "../../../Page/Admin/Layouts/Navbar";
+import Footer from "../../../Page/Admin/Layouts/Footer";
 
 const OthersUpdate = () => {
   const [title, setTitle] = useState("");
@@ -142,11 +142,11 @@ const OthersUpdate = () => {
 
   return (
     <React.Fragment>
-      <Navbar />
-      <div className="w-full p-5 my-2 bg-base-100">
-        <div className="container mx-auto">
+      <Navbar username={username}/>
+      <div className="w-full bg-base-100">
+        <div className="container p-4  mx-auto">
           {/* start navigasi */}
-          <div className="divider">
+          <div className="divider pt-16 pb-4">
             <div className="flex w-full justify-between gap-2">
               <div className="group">
                 <Link

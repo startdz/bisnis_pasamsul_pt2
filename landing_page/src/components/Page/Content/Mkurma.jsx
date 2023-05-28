@@ -1,163 +1,113 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import jwtDecode from "jwt-decode";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../Admin/Layouts/Navbar";
 import Footer from "../Admin/Layouts/Footer";
 import y3 from "/y3.jpg";
 
 const Mkurma = () => {
+
+  const [token, setToken] = useState("")
+  const [username, setUsername] = useState("")
+  const [expire, setExpire] = useState("")
+  const [message, setMessage] = useState("")
+
+  const navigate = useNavigate()
+
+  const refreshToken = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/auth/security/')
+      setToken(response.data.accessToken)
+      const decoded = jwtDecode(response.data.accessToken)
+      setUsername(decoded.username)
+      setExpire(decoded.exp)
+    } catch (error) {
+      if (error.response) {
+        navigate("/auth/login")
+      }
+    }
+  }
+
+  const axiosJWT = axios.create();
+
+  axiosJWT.interceptors.request.use(
+    async (config) => {
+      const currentDate = new Date();
+      if (expire * 1000 < currentDate.getTime()) {
+        const response = await axios.get(
+          "http://localhost:5000/api/auth/security/"
+        );
+        config.headers.Authorization = `Bearer ${response.data.accessToken}`;
+        setToken(response.data.accessToken);
+        const decoded = jwtDecode(response.data.accessToken);
+        setUsername(decoded.username);
+        setExpire(decoded.exp);
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
+  useEffect(() => {
+    refreshToken();
+  })
+
   return (
     <React.Fragment>
-      <Navbar/>
-      {/* ------------------- */}
-      {/* Mobile Version */}
-      <div className="container mx-auto px-2 md:hidden">
-        {/* start Breadcrumbs */}
-        <div className="text-sm breadcrumbs">
-          <ul>
-            <li>
-              <Link to={"/project/admin/dashboard"}>Control Panel</Link>
-            </li>
-            <li>
-              <Link to={"/project/admin/dashboard"}>Dashboard</Link>
-            </li>
-            <li>
-              <Link to={"/project/admin/dashboard/mkurma"}>Kurma</Link>
-            </li>
-          </ul>
-        </div>
-        {/* end Breadcrumbs */}
-        <div className="divider">
-          <Link
-            to={"/"}
-            className="py-2 px-4 bg-zinc-800 font-bold text-zinc-200 rounded-sm hover:rounded-md transition-all duration-300 ease-in-out hover:bg-zinc-900">
-            + Kurma Baru🖐
-          </Link>
-        </div>
-
-        {/* start Card Yoghurt */}
-        <div className="grid grid-cols-2 gap-2 pt-3">
-          {/* start Card */}
-          <div className="aspect-[4/3] shadow-xl border rounded-md">
-            <div className="p-1 w-full">
-              <div className="w-full flex justify-center">
-                <img
-                  src={y3}
-                  className="w-3/4 rounded-lg shadow-md hover:rounded-lg hover:scale-75 hover:-rotate-45 transition-all duration-500 ease-in-out"
-                />
-              </div>
-              <div className="text-sm mt-2">
-                <div className="flex w-full mb-2">
-                  <div className="w-1/4 h-max flex flex-col justify-between font-semibold">
-                    <p>Title:</p>
-                    <p>Stok:</p>
-                    <p>Harga:</p>
-                  </div>
-                  <div className="w-full flex flex-col justify-between items-end font-bold truncate">
-                    <input
-                      value={"Yoghurt Top Markotop"}
-                      className="text-end"
-                    />
-                    <p>120 Pics</p>
-                    <p>Rp. 12.000</p>
-                  </div>
-                </div>
-                <div className="w-full font-bold flex flex-row-reverse justify-between border-b border-t">
-                  <button className="px-4 py-2 bg-stone-800 text-slate-50 rounded-sm my-2 hover:bg-stone-900 hover:rounded-md transition-all duration-300 ease-in-out">
-                    Hapus
-                  </button>
-                  <button className="px-4 py-2 bg-stone-800 text-slate-50 rounded-sm my-2 hover:bg-stone-900 hover:rounded-md transition-all duration-300 ease-in-out">
-                    Ubah
-                  </button>
-                </div>
-              </div>
+      <Navbar username={username} />
+      <div className="w-full p-4 bg-base-100">
+        <div className="container mx-auto max-w-sm lg:max-w-lg">
+          <div className="divider pt-16">
+            <div className="flex justify-between gap-2 font-bold text-base-100 text-center">
+              <Link to={""} className="px-5 py-2 bg-zinc-800 rounded hover:rounded-lg hover:bg-zinc-900 transition-all duration-300 ease-in-out hover:scale-95">Tambah🖐</Link>
+              <Link to={""} className="px-5 py-2 bg-zinc-800 rounded hover:rounded-lg hover:bg-zinc-900 transition-all duration-300 ease-in-out hover:scale-95">Lihat😊</Link>
             </div>
           </div>
-          {/* end Card */}
-        </div>
-        {/* end Card Yoghurt */}
-
-        <div className="divider"></div>
-      </div>
-      {/* Mobile Version */}
-      {/* ------------------- */}
-      {/* Tablet Version & large */}
-      {/* ------------------- */}
-      <div className="hidden md:block md:w-full md:p-4">
-        <div className="md:container md:mx-auto md:my-2">
-          {/* start Breadcrumbs */}
-          <div className="text-sm breadcrumbs">
-            <ul>
-              <li>
-                <Link to={"/project/admin/dashboard"}>Control Panel</Link>
-              </li>
-              <li>
-                <Link to={"/project/admin/dashboard"}>Dashboard</Link>
-              </li>
-              <li>
-                <Link to={"/project/admin/dashboard/mkurma"}>Kurma</Link>
-              </li>
-            </ul>
-          </div>
-          {/* end Breadcrumbs */}
-          {/* start Tombol navigasi */}
-          <div className="divider">
-            <div className="md:flex md:justify-between md:w-full gap-2">
-              <Link
-                className="md:py-2 md:px-4 md:bg-zinc-800 md:w-1/2 md:font-bold md:text-slate-100 text-center md:hover:rounded-md md:rounded-sm md:hover:bg-zinc-900 md:transition-all md:duration-300 md:ease-in-out"
-                to={"/project/admin/dashboard/mkurma"}>
-                +Kurma🖐
-              </Link>
-              <Link
-                className="md:py-2 md:px-4 md:bg-zinc-800 md:w-1/2 md:font-bold md:text-slate-100 text-center md:hover:rounded-md md:rounded-sm md:hover:bg-zinc-900 md:transition-all md:duration-300 md:ease-in-out"
-                to={"/"}>
-                Produk Lain😋
-              </Link>
-            </div>
-          </div>
-          {/* end Tombol navigasi */}
-
-          {/* Card Kurma md:&lg */}
-          <div className="hidden md:w-full md:flex md:justify-evenly md:flex-wrap md:gap-4 md:mt-8">
-            {/* start Card */}
-            <div className="w-2/5 md:p-2 md:border-2 md:shadow-lg md:rounded-lg md:hover:rounded-sm group duration-300 transition-all ease-in-out lg:w-1/4">
-              <div>
-                <img
-                  src={y3}
-                  className="md:rounded-lg md:shadow-lg md:overflow-hidden md:group-hover:scale-95 md:transition-all md:duration-700 md:ease-in-out md:group-hover:rotate-180 md:group-hover:opacity-95"
-                />
-              </div>
-
-              <div className="md:flex md:w-full md:justify-between md:mt-2">
-                <div className="md:w-1/4 md:h-28 md:flex md:flex-col md:justify-between md:font-semibold">
-                  <p className="md:border-t">Title:</p>
-                  <p>Stok:</p>
-                  <p>Harga:</p>
-                </div>
-                <div className="md:w-3/4 md:h-28 md:flex md:flex-col md:justify-between md:text-end md:font-bold">
-                  <p className="md:truncate md:border-t">Kurma Best Seller A</p>
-                  <p>240 Pack</p>
-                  <p>Rp. 33.500</p>
-                </div>
-              </div>
-
-              <div className="md:w-full md:flex md:flex-row-reverse md:mt-2 md:justify-between md:font-bold md:text-slate-100">
-                <button className="md:py-2 md:px-6 md:bg-zinc-800 md:rounded-sm md:hover:bg-zinc-900 md:hover:rounded-md transition-all duration-300 ease-in-out">
-                  Hapus
-                </button>
-                <button className="md:py-2 md:px-6 md:bg-zinc-800 md:rounded-sm md:hover:bg-zinc-900 md:hover:rounded-md transition-all duration-300 ease-in-out">
-                  Ubah
-                </button>
-              </div>
-            </div>
-            {/* end Card */}
-          </div>
-          {/* Card Kurma md:&lg */}
-
-          <div className="divider"></div>
         </div>
       </div>
-      {/* ------------------- */}
-      {/* Tablet Version & large */}
+
+      {/* start Content */}
+      <React.Fragment>
+        <div className="w-full bg-base-100 p-4">
+          <div className="container max-w-sm mx-auto">
+            <div className="flex gap-2 justify-between">
+              <div className="aspect-square rounded-md shadow-xl group transition-all duration-500 ease-in-out">
+                <div className="shadow-lg p-2">
+                  <img src={y3} alt="" className="rounded shadow-lg hover:scale-105 transition-all duration-500 ease-in-out"/>
+                </div>
+                <div className="p-1 flex justify-between gap-1">
+                  <div className="w-1/4 font-semibold flex flex-col justify-between text-sm">
+                    <p>Title</p>
+                    <p>Harga</p>
+                    <p>Jenis</p>
+                    <p>Stock</p>
+                  </div>
+                  <div className="w-3/4 text-sm font-bold flex flex-col justify-between items-end">
+                    <p className="truncate">Kurma Mantap</p>
+                    <p className="truncate">Rp. 12.000</p>
+                    <p className="truncate">Impor</p>
+                    <p className="truncate">15 Pack</p>
+                  </div>
+                </div>
+                <div className="flex justify-between flex-row-reverse  p-1 mt-2 mb-4 text-base-100 font-bold scale-95">
+                  <button className="px-5 py-2 bg-zinc-800 rounded hover:scale-90 hover:rounded-lg hover:bg-zinc-900 transition-all duration-300 ease-in-out">Hapus</button>
+                  <button className="px-5 py-2 bg-zinc-800 rounded hover:scale-90 hover:rounded-lg hover:bg-zinc-900 transition-all duration-300 ease-in-out">Ubah</button>
+                </div>
+              </div>
+              <div className="aspect-square border">
+                <div>
+                  <img src={y3} alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </React.Fragment>
+      {/* end Content */}
+
       <Footer />
     </React.Fragment>
   );

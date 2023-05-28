@@ -1,90 +1,121 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
 import Navbar from "../Admin/Layouts/Navbar";
 import Footer from "../Admin/Layouts/Footer";
 import y3 from "/y3.jpg";
 
 const Myoghurt = () => {
-  return (
-    <React.Fragment>
-      <Navbar />
-      {/* ------------------- */}
-      {/* Mobile Version */}
-      <div className="container mx-auto px-2 md:hidden">
-        {/* start Breadcrumbs */}
-        <div className="text-sm breadcrumbs">
-          <ul>
-            <li>
-              <Link to={"/project/admin/dashboard"}>Control Panel</Link>
-            </li>
-            <li>
-              <Link to={"/project/admin/dashboard"}>Dashboard</Link>
-            </li>
-            <li>
-              <Link to={"/project/admin/dashboard/myoghurt"}>Yoghurt</Link>
-            </li>
-          </ul>
-        </div>
-        {/* end Breadcrumbs */}
-        <div className="divider">
-          <Link
-            to={"/"}
-            className="py-2 px-4 bg-zinc-800 font-bold text-zinc-200 rounded-sm hover:rounded-md transition-all duration-300 ease-in-out hover:bg-zinc-900">
-            + Kurma Baru🖐
-          </Link>
-        </div>
 
-        {/* start Card Yoghurt */}
-        <div className="grid grid-cols-2 gap-2 pt-3">
-          {/* start Card */}
-          <div className="aspect-[4/3] shadow-xl border rounded-md">
-            <div className="p-1 w-full">
-              <div className="w-full flex justify-center">
-                <img
-                  src={y3}
-                  className="w-3/4 rounded-lg shadow-md hover:rounded-lg hover:scale-75 hover:-rotate-45 transition-all duration-500 ease-in-out"
-                />
+  const [token, setToken] = useState("")
+  const [yoghurtProducts, setYoghurtProduct] = useState([])
+  const [username, setUsername] = useState("")
+  const [expire, setExpire] = useState("")
+  const [message, setMessage] = useState("")
+
+  const navigate = useNavigate()
+
+  const refreshToken = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/auth/security/')
+      setToken(response.data.accessToken)
+      const decoded = jwtDecode(response.data.accessToken)
+      setUsername(decoded.username)
+      setExpire(decoded.exp)
+    } catch (error) {
+      if (error.response) {
+        navigate("/auth/login")
+      }
+    }
+  }
+
+  const axiosJWT = axios.create();
+
+  axiosJWT.interceptors.request.use(
+    async (config) => {
+      const currentDate = new Date();
+      if (expire * 1000 < currentDate.getTime()) {
+        const response = await axios.get(
+          "http://localhost:5000/api/auth/security/"
+        );
+        config.headers.Authorization = `Bearer ${response.data.accessToken}`;
+        setToken(response.data.accessToken);
+        const decoded = jwtDecode(response.data.accessToken);
+        setUsername(decoded.username);
+        setExpire(decoded.exp);
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
+  useEffect(() => {
+    refreshToken();
+    resultYoghurt();
+  })
+
+  const resultYoghurt = async () => {
+    try {
+      const response = await axiosJWT.get(`http://localhost:5000/api/product/yoghurt/`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      setYoghurtProduct(response.data)
+    } catch (error) {
+      if (error.response) {
+        setMessage(error.response.data.message)
+      }
+    }
+  }
+
+  const dropOther = async (id) => {
+    try {
+      await axiosJWT.delete(`http://localhost:5000/api/product/yoghurt/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      resutsOthersProduct()
+    } catch (error) {
+      if (error.response) {
+        setMessage(error.response.data.message)
+      }
+    }
+  }
+
+  const cancel = () => {
+    window.location.reload()
+  }
+
+  return (
+     <React.Fragment>
+      {/* start mobile version & sm-device */}
+      <Navbar username={username}/>
+      <div className="w-full h-auto bg-base-100">
+        <div className="container mx-auto p-4 lg:max-w-4xl">
+          {/* start navigasi */}
+          <div className="divider pt-16">
+            <div className="flex w-full justify-between gap-4">
+              <div>
+                <Link
+                  to={"/project/admin/dashboard/cyoghurt/create"}
+                  className="px-4 py-2 bg-zinc-800 font-bold text-base-100 rounded-sm hover:rounded-md hover:bg-zinc-900 transition-all duration-300 ease-in-out hover:text-sm">
+                  Tambah Yoghurt🖐
+                </Link>
               </div>
-              <div className="text-sm mt-2">
-                <div className="flex w-full mb-2">
-                  <div className="w-1/4 h-max flex flex-col justify-between font-semibold">
-                    <p>Title:</p>
-                    <p>Stok:</p>
-                    <p>Harga:</p>
-                  </div>
-                  <div className="w-full flex flex-col justify-between items-end font-bold truncate">
-                    <input
-                      value={"Yoghurt Top Markotop"}
-                      className="text-end"
-                    />
-                    <p>120 Pics</p>
-                    <p>Rp. 12.000</p>
-                  </div>
-                </div>
-                <div className="w-full font-bold flex flex-row-reverse justify-between border-b border-t">
-                  <button className="px-4 py-2 bg-stone-800 text-slate-50 rounded-sm my-2 hover:bg-stone-900 hover:rounded-md transition-all duration-300 ease-in-out">
-                    Hapus
-                  </button>
-                  <button className="px-4 py-2 bg-stone-800 text-slate-50 rounded-sm my-2 hover:bg-stone-900 hover:rounded-md transition-all duration-300 ease-in-out">
-                    Ubah
-                  </button>
-                </div>
+              <div>
+                <Link
+                  to={"/project/admin/dashboard/"}
+                  className="px-4 py-2 bg-zinc-800 font-bold text-base-100 rounded-sm hover:rounded-md hover:bg-zinc-900 transition-all duration-300 ease-in-out hover:text-sm">
+                  Dashboard🙂
+                </Link>
               </div>
             </div>
           </div>
-          {/* end Card */}
-        </div>
-        {/* end Card Yoghurt */}
-
-        <div className="divider"></div>
-      </div>
-      {/* Mobile Version */}
-      {/* ------------------- */}
-      {/* Tablet Version & large */}
-      {/* ------------------- */}
-      <div className="hidden md:block md:w-full md:p-4">
-        <div className="md:container md:mx-auto md:my-2">
-          {/* start Breadcrumbs */}
           <div className="text-sm breadcrumbs">
             <ul>
               <li>
@@ -94,70 +125,81 @@ const Myoghurt = () => {
                 <Link to={"/project/admin/dashboard"}>Dashboard</Link>
               </li>
               <li>
-                <Link to={"/project/admin/dashboard/mkurma"}>Kurma</Link>
+                <Link to={"/project/admin/dashboard/myoghurt"}>Yoghurt</Link>
               </li>
             </ul>
           </div>
-          {/* end Breadcrumbs */}
-          {/* start Tombol navigasi */}
-          <div className="divider">
-            <div className="md:flex md:justify-between md:w-full gap-2">
-              <Link
-                className="md:py-2 md:px-4 md:bg-zinc-800 md:w-1/2 md:font-bold md:text-slate-100 text-center md:hover:rounded-md md:rounded-sm md:hover:bg-zinc-900 md:transition-all md:duration-300 md:ease-in-out"
-                to={"/project/admin/dashboard/mkurma"}>
-                +Kurma🖐
-              </Link>
-              <Link
-                className="md:py-2 md:px-4 md:bg-zinc-800 md:w-1/2 md:font-bold md:text-slate-100 text-center md:hover:rounded-md md:rounded-sm md:hover:bg-zinc-900 md:transition-all md:duration-300 md:ease-in-out"
-                to={"/"}>
-                Produk Lain😋
-              </Link>
-            </div>
-          </div>
-          {/* end Tombol navigasi */}
-
-          {/* Card Kurma md:&lg */}
-          <div className="hidden md:w-full md:flex md:justify-evenly md:flex-wrap md:gap-4 md:mt-8">
-            {/* start Card */}
-            <div className="w-2/5 md:p-2 md:border-2 md:shadow-lg md:rounded-lg md:hover:rounded-sm group duration-300 transition-all ease-in-out lg:w-1/4">
-              <div>
+          {!message ? '' : (<div className="text-center font-bold">
+            {message}
+          </div>)}
+          {/* end navigasi */}
+          {/* start Content */}
+          <div className="grid grid-cols-2 gap-2 pt-4 md:grid-cols-3 md:gap-3 lg:flex lg:flex-wrap lg:justify-around">
+            {/* start card */}
+            {yoghurtProducts.map(other => (
+              <div className="aspect-square rounded p-1 shadow-lg group sm:p-2 lg:w-2/5 lg:border-2 lg:aspect-video" key={other._id}>
                 <img
-                  src={y3}
-                  className="md:rounded-lg md:shadow-lg md:overflow-hidden md:group-hover:scale-95 md:transition-all md:duration-700 md:ease-in-out md:group-hover:rotate-180 md:group-hover:opacity-95"
+                  src={other.url}
+                  alt="product"
+                  className="rounded-md border-b group-hover:scale-95 group-hover:-rotate-3 transition-all duration-500 ease-in-out w-full"
                 />
-              </div>
-
-              <div className="md:flex md:w-full md:justify-between md:mt-2">
-                <div className="md:w-1/4 md:h-28 md:flex md:flex-col md:justify-between md:font-semibold">
-                  <p className="md:border-t">Title:</p>
-                  <p>Stok:</p>
-                  <p>Harga:</p>
+                <div className="border-t mt-2 flex justify-between">
+                  <div className="font-semibold text-sm flex flex-col justify-between sm:text-base lg:text-lg">
+                    <div className="border-b">Title:</div>
+                    <div className="border-b">Rasa:</div>
+                    <div className="border-b">Harga:</div>
+                    <div className="border-b">Stok:</div>
+                  </div>
+                  <div className="font-bold text-sm flex flex-col justify-between text-end sm:text-base lg:text-lg">
+                    <div className="truncate border-b">
+                      {other.title}
+                    </div>
+                    <div className="truncate border-b">
+                      {other.taste}
+                    </div>
+                    <div className="truncate border-b">{other.price}</div>
+                    <div className="truncate border-b">{other.stock} Pics/Pack</div>
+                  </div>
                 </div>
-                <div className="md:w-3/4 md:h-28 md:flex md:flex-col md:justify-between md:text-end md:font-bold">
-                  <p className="md:truncate md:border-t">Kurma Best Seller A</p>
-                  <p>240 Pack</p>
-                  <p>Rp. 33.500</p>
+
+                <div className="flex justify-between mt-4 flex-row-reverse font-bold border-t pt-2 text-center sm:p-2">
+                  <label className="px-4 py-2 bg-zinc-800 text-base-100 rounded hover:bg-zinc-900 hover:rounded-md transition-all duration-300 ease-in-out hover:text-sm" htmlFor="my-modal-6">
+                    Hapus
+                  </label>
+                  <input type="checkbox" id="my-modal-6" className="modal-toggle" />
+                  <div className="modal modal-bottom sm:modal-middle">
+                    <div className="modal-box">
+                      <p className="py-4">Menghapus produk ini sayang lho🙂</p>
+                      <h3 className="font-bold text-lg">Yakin Hapus Produk ini ?</h3>
+                      <div className="flex justify-around mt-4 mb-2">
+                        <button className="btn" onClick={cancel}>Batal</button>
+                        <button onClick={() => dropOther(other._id)}  className="btn">Hapus</button>
+                      </div>
+                    </div>
+                  </div>
+                  <Link className="px-4 py-2 bg-zinc-800 text-base-100 rounded hover:bg-zinc-900 hover:rounded-md transition-all duration-300 ease-in-out hover:text-sm" to={`/project/admin/dashboard/myoghurt/${other._id}`}>
+                    Ubah
+                  </Link>
                 </div>
               </div>
+            ))}
 
-              <div className="md:w-full md:flex md:flex-row-reverse md:mt-2 md:justify-between md:font-bold md:text-slate-100">
-                <button className="md:py-2 md:px-6 md:bg-zinc-800 md:rounded-sm md:hover:bg-zinc-900 md:hover:rounded-md transition-all duration-300 ease-in-out">
-                  Hapus
-                </button>
-                <button className="md:py-2 md:px-6 md:bg-zinc-800 md:rounded-sm md:hover:bg-zinc-900 md:hover:rounded-md transition-all duration-300 ease-in-out">
-                  Ubah
-                </button>
-              </div>
-            </div>
-            {/* end Card */}
+
+            {/* end card */}
           </div>
-          {/* Card Kurma md:&lg */}
-
-          <div className="divider"></div>
+          {/* end Content */}
         </div>
       </div>
-      {/* ------------------- */}
-      {/* Tablet Version & large */}
+      {/* end mobile version & sm-device */}
+      <React.Fragment>
+        <div className="w-full">
+          <div className="container max-w-4xl mx-auto">
+            <div className="divider">
+              🙂
+            </div>
+          </div>
+        </div>
+      </React.Fragment>
       <Footer />
     </React.Fragment>
   );

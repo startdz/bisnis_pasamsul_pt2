@@ -1,0 +1,24 @@
+{
+  "idYoghurt": "ID-YOGHURT 001",
+  "title": "Yoghurt title",
+  "description": "description-TEXT",
+  "image": "BINARY",
+  "url_img": "[string-url-path-image]",
+  "jenis": [
+    "id_jenis",
+    "Per/pics",
+    "paket"
+  ],
+  "ulasan": {
+    "id_user_ulasan": "IDUser",
+    "nama_user": "nama_user",
+    "ulasan": "ulasan_text",
+    "tanggal": "DATE"
+  },
+  "testimoni": {
+    "testimoni_user_id": "IDUser",
+    "nama_user": "nama_user",
+    "testimoni": "testimoni_text",
+    "tanggal": "DATE"
+  }
+}

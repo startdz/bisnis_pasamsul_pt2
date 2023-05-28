@@ -18,7 +18,7 @@ const Navbar = ({ username }) => {
 
  return (
   <React.Fragment>
-   <div className="navbar bg-base-100 fixed z-[99]">
+   <div className="navbar bg-base-100 fixed z-[99] ">
     <div className="navbar-start">
      <div className="dropdown">
       <label
@@ -58,7 +58,7 @@ const Navbar = ({ username }) => {
           <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
          </svg>
         </a>
-        <ul className="p-2">
+        <ul className="p-2 bg-base-100">
          <li>
           <Link to={"/project/admin/dashboard/myoghurt"}>
            Produk Yoghurt
@@ -88,7 +88,7 @@ const Navbar = ({ username }) => {
           <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
          </svg>
         </a>
-        <ul className="p-2">
+        <ul className="p-2 bg-base-100">
          <li>
           <a>Ubah Sosmed</a>
          </li>
@@ -131,7 +131,7 @@ const Navbar = ({ username }) => {
          <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
         </svg>
        </a>
-       <ul className="p-2">
+       <ul className="p-2 bg-base-100">
         <li>
          <Link to={"/project/admin/dashboard/myoghurt"}>
           Produk Yoghurt
@@ -161,7 +161,7 @@ const Navbar = ({ username }) => {
          <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
         </svg>
        </a>
-       <ul className="p-2">
+       <ul className="p-2 bg-base-100">
         <li>
          <Link to={"/project/admin/dashboard/myoghurt"}>
           Pengaturan Akun
@@ -184,7 +184,7 @@ const Navbar = ({ username }) => {
     </div>
     <div className="navbar-end">
      <button
-      className="btn bg-red-500 text-white hover:text-zinc-900 hover:rounded-lg"
+      className="btn hover:rounded-lg transition-all duration-300 ease-in-out hover:bg-red-500 hover:border-white"
       onClick={Logout}>
       Sign Out
      </button>

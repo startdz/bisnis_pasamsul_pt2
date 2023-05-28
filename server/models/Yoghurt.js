@@ -10,6 +10,10 @@ const yoghurtSchema = Schema({
     type: String,
     required: true,
   },
+  taste: {
+    type: String,
+    required: true
+  },
   image: {
     data: Buffer,
     originalName: String,
@@ -21,7 +25,28 @@ const yoghurtSchema = Schema({
     required: true,
   },
   price: {
+    type: String,
+    required: true,
+  },
+  stock: {
     type: Number,
+    min: 1,
+    max: 9999,
+    required: true,
+  },
+});
+
+const PaketYoghurtSchema = Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  deskripsi: {
+    type: String,
+    required: true,
+  },
+  harga: {
+    type: String,
     required: true,
   },
   stock: {
@@ -29,6 +54,10 @@ const yoghurtSchema = Schema({
     required: true,
   },
 });
+
+const UlasanYoghurt = Schema({
+  
+})
 
 const Yoghurt = model("yoghurt", yoghurtSchema);
 export default Yoghurt;

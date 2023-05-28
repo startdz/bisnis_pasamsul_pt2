@@ -81,21 +81,24 @@ const Cothers = () => {
     }
   }
 
+  const cancel = () => {
+    window.location.reload()
+  }
 
   return (
     <React.Fragment>
       {/* start mobile version & sm-device */}
       <Navbar username={username}/>
-      <div className="w-full h-auto p-4 bg-base-100">
-        <div className="container mx-auto lg:max-w-4xl">
+      <div className="w-full h-auto bg-base-100">
+        <div className="container mx-auto p-4 lg:max-w-4xl">
           {/* start navigasi */}
-          <div className="divider">
+          <div className="divider pt-16">
             <div className="flex w-full justify-between gap-4">
               <div>
                 <Link
                   to={"/project/admin/dashboard/cothers/create"}
                   className="px-4 py-2 bg-zinc-800 font-bold text-base-100 rounded-sm hover:rounded-md hover:bg-zinc-900 transition-all duration-300 ease-in-out hover:text-sm">
-                  ➕Produk Lain🖐
+                  Tambah Produk🖐
                 </Link>
               </div>
               <div>
@@ -116,7 +119,7 @@ const Cothers = () => {
                 <Link to={"/project/admin/dashboard"}>Dashboard</Link>
               </li>
               <li>
-                <Link to={"/project/admin/dashboard/mkurma"}>Kurma</Link>
+                <Link to={"/project/admin/dashboard/cothers"}>Produk lain</Link>
               </li>
             </ul>
           </div>
@@ -156,14 +159,15 @@ const Cothers = () => {
                   <input type="checkbox" id="my-modal-6" className="modal-toggle" />
                   <div className="modal modal-bottom sm:modal-middle">
                     <div className="modal-box">
-                      <h3 className="font-bold text-lg">Yakin Hapus Produk ini ?</h3>
                       <p className="py-4">Menghapus produk ini sayang lho🙂</p>
-                      <div className="modal-action">
+                      <h3 className="font-bold text-lg">Yakin Hapus Produk ini ?</h3>
+                      <div className="flex justify-around mt-4 mb-2">
+                        <button className="btn" onClick={cancel}>Batal</button>
                         <button onClick={() => dropOther(other._id)}  className="btn">Hapus</button>
                       </div>
                     </div>
                   </div>
-                  <Link className="px-4 py-2 bg-zinc-800 text-base-100 rounded hover:bg-zinc-900 hover:rounded-md transition-all duration-300 ease-in-out hover:text-sm" to={`http://localhost:5173/project/admin/dashboard/cothers/edit/${other._id}`}>
+                  <Link className="px-4 py-2 bg-zinc-800 text-base-100 rounded hover:bg-zinc-900 hover:rounded-md transition-all duration-300 ease-in-out hover:text-sm" to={`http://localhost:5173/project/admin/dashboard/cothers/${other._id}`}>
                     Ubah
                   </Link>
                 </div>
