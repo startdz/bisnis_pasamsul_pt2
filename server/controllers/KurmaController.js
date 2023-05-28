@@ -27,7 +27,7 @@ const KurmaController = {
     .json({ message: "Tidak ada gambar yang di upload!" });
    return false;
   }
-  if (img.size >= 2000000) {
+  if (img.size >= 2 * 1024 * 1024) {
    res.status(422).json({ message: "Gambar max 2mb!" });
    return false;
   }
@@ -45,6 +45,7 @@ const KurmaController = {
    const create = new Kurma({
     title: req.body.title,
     description: req.body.description,
+    jenis: req.body.jenis,
     image: {
      data: img.fieldname,
      originalName: img.filename,
@@ -73,7 +74,7 @@ const KurmaController = {
     .json({ message: "Tidak ada gambar yang di upload!" });
    return false;
   }
-  if (img.size >= 2000000) {
+  if (img.size >= 2 * 1024 * 1024) {
    res.status(422).json({ message: "Gambar max 2mb!" });
    return false;
   }
@@ -107,6 +108,7 @@ const KurmaController = {
     {
      title: req.body.title,
      description: req.body.description,
+     jenis: req.body.jenis,
      image: {
       data: img.fieldname,
       originalName: updatedImage,

@@ -14,6 +14,7 @@ import OthersUpdate from "./components/Form/Dashboard/Update/OthersUpdate";
 import CreateY from "./components/Form/Dashboard/Create/CreateY";
 import CreateK from "./components/Form/Dashboard/Create/CreateK";
 import YoghurtUpdate from "./components/Form/Dashboard/Update/YoghurtUpdate";
+import KurmaUpdate from "./components/Form/Dashboard/Update/KurmaUpdate";
 
 const App = () => {
   return (
@@ -56,6 +57,7 @@ const App = () => {
         {/* start for Route Product ID */}
         <Route path="/project/admin/dashboard/cothers/:id" element={<OthersUpdate/>}/>
         <Route path="/project/admin/dashboard/myoghurt/:id" element={<YoghurtUpdate/>}/>
+        <Route path="/project/admin/dashboard/ckurma/:id" element={<KurmaUpdate/>}/>
         {/* end for Route Product ID */}
 
       </Routes>

@@ -10,6 +10,10 @@ const kurmaSchema = Schema({
     type: String,
     required: true,
   },
+  jenis: {
+    type: String,
+    required: true
+  },
   image: {
     data: Buffer,
     originalName: String,
@@ -20,7 +24,7 @@ const kurmaSchema = Schema({
     required: true,
   },
   price: {
-    type: Number,
+    type: String,
     required: true,
   },
   stock: {
